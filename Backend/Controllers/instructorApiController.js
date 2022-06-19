@@ -5,7 +5,7 @@ const bufferToString = require('../utilities/bufferToString')
 const Instructor = require('../models/instructor')
 const {createToken} = require('../utilities/createToken')
 const cloudinary = require('../utilities/cloudinary')
-const Videos = require('../models/videos')
+const Videos = require('../models/video')
 const catchAsync = require('../utilities/catchAsync')
 const AppError = require('../utilities/appError')
 
@@ -24,21 +24,21 @@ module.exports = {
 
     signIn : catchAsync(async (req, res, next) => {
         const {email, password} = req.body
-        const foundUser = await Instructor.findByEmailAndPassword(email, password)
-        createToken(foundUser)
-        foundUser.save()
+        const foundInstructor = await Instructor.findByEmailAndPassword(email, password)
+        createToken(foundInstructor)
+        foundInstructor.save()
         res.status(200).json({
             status : 'success',
             user : 'instructor',
             message : 'loggedIn successfully',
-            data : foundUser
+            data : foundInstructor
         })    
     }),
 
     signOut : async (req, res, next) => {
         const token = req.headers.authorization 
-        const foundUser = await Instructor.findOneAndUpdate({ accessToken: token }, { accessToken : null })
-        if(!foundUser) return next(new AppError('invalid credentials', 400))
+        const foundInstructor = await Instructor.findOneAndUpdate({ accessToken: token }, { accessToken : null })
+        if(!foundInstructor) return next(new AppError('invalid credentials', 400))
         return res.json({
             status : 'success',
             'message' : 'loggedOut successfully'
@@ -48,7 +48,7 @@ module.exports = {
     createCourse : catchAsync(async (req, res, next) =>{
         const token = req.headers.authorization
         const decoded = await verify(token, privatekey) 
-        const newCourse = await Courses.create({...req.body, instructor : decoded.id})
+        const newCourse = await Courses.create({...req.body, instructor : decoded.id}) //observe
         await Instructor.findByIdAndUpdate(decoded.id, {$push : { courses : newCourse._id }})
         res.json({
             status : 'success',
@@ -60,7 +60,7 @@ module.exports = {
     addVideos : catchAsync(async (req, res, next) => {
         const { originalname, buffer } = req.file
         const videoContent = bufferToString( originalname, buffer)
-        const { secure_url } = await cloudinary.v2.instructor.upload(
+        const { secure_url } = await cloudinary.v2.uploader.upload(
             videoContent, 
             { 
                 resource_type: "video", 
