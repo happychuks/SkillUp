@@ -5,6 +5,6 @@ Architecture:   <br>
 UI/UX Tool: Figma <br>
 FrontEnd - React.js  <br>
 BackEnd - Node.js  <br>
-Hosting Environment - Azure  <br>
-Database: MongoDB <br>
+Hosting Environment - Cloudinary, Azure  <br>
+Database: MongoDB Atlas <br>
 Collaboration Tool: GitHub, Trello, GoogleDoc
