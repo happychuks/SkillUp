@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose')
 const { hash, compare } = require('bcryptjs')
 const  validator = require('validator')
   
-const userSchema = new Schema({
+const instructorSchema = new Schema({
     name : {
         type : String,
         required : true,
@@ -51,7 +51,7 @@ const userSchema = new Schema({
         type : String,
         required : false
     },
-    DOB : {
+    DateOfBirth : {
         type : Date,
         validate : {
             validator : (data) => {
@@ -72,18 +72,10 @@ const userSchema = new Schema({
             type : String,
             default : " "
         },
-        district : {
-            type : String,
-            default : " "
-        },
         state : {
             type : String,
             default : " "
         },
-        pincode : {
-            type : Number,
-            default : " "
-        }
     },
     phoneNumber: {
         type: Number
@@ -99,25 +91,25 @@ const userSchema = new Schema({
     }
 }, {timestamps : true })
 
-userSchema.statics.findByEmailAndPassword = async (email, password) =>{
+instructorSchema.statics.findByEmailAndPassword = async (email, password) =>{
     try {
-        const foundUser = await User.findOne({email});
-        if(!foundUser) throw new Error('email not found');
-        const isMatched = await compare(password, foundUser.password);
+        const foundInstructor = await Instructor.findOne({email});
+        if(!foundInstructor) throw new Error('email not found');
+        const isMatched = await compare(password, foundInstructor.password);
         if(!isMatched) throw new Error('incorrect password');
-        return foundUser;
+        return foundInstructor;
     } catch (error) {
         error.name = 'AuthError';
         throw error;
     } 
 }
 
-userSchema.pre('save', async function(next){
-    const user = this 
+instructorSchema.pre('save', async function(next){
+    const instructor = this 
     try {
-        if(user.isModified('password')) {
-            const hashedPassword = await hash(user.password, 10);
-            user.password = hashedPassword
+        if(instructor.isModified('password')) {
+            const hashedPassword = await hash(instructor.password, 10);
+            instructor.password = hashedPassword
             next();
         }
     } catch (error) {
@@ -126,5 +118,5 @@ userSchema.pre('save', async function(next){
     }
 })
 
-const User = model('instructor', userSchema)
-module.exports = User
+const Instructor = model('instructor', instructorSchema)
+module.exports = Instructor

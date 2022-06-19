@@ -1,5 +1,5 @@
 const Courses  = require('../models/courses')
-const User = require('../models/user')
+const Student = require('../models/student')
 const Instructor = require('../models/instructor')
 const catchAsync = require('../utilities/catchAsync')
 const AppError = require('../utilities/appError')
@@ -11,35 +11,35 @@ const stripe = require('stripe')('sk_test_51HUEyCDOfBXcEuEsTZCdBB0EyPYnqaNdEve90
 
 module.exports = {
     signUp : catchAsync( async (req, res, next) => {
-        const newUploader = await Consumer.create({...req.body})
-        createToken(newUploader)
-        await newUploader.save()
+        const newStudent = await Student.create({...req.body})
+        createToken(newStudent)
+        await newStudent.save()
         res.status(200).json({
             status : 'success',
-            user : 'consumer',
+            user : 'student',
             message : 'registered successfully',
-            data : newUploader
+            data : newStudent
         })    
     }),
 
     signIn : catchAsync( async (req, res, next) => {
         const {email, password} = req.body
-        const foundUser = await Consumer.findByEmailAndPassword(email, password)
-        if(!foundUser) return next(new AppError('incorrect credentials', 400))
-        createToken(foundUser)
-        foundUser.save()
+        const foundStudent = await Student.findByEmailAndPassword(email, password)
+        if(!foundStudent) return next(new AppError('incorrect credentials', 400))
+        createToken(foundStudent)
+        foundStudent.save()
         res.status(200).json({
             status : 'success',
             user : 'consumer',
             message : 'loggedIn successfully',
-            data : foundUser
+            data : foundStudent
         })    
     }),
 
     signOut : catchAsync( async (req, res, next) => {
         const token = req.headers.authorization 
-        const foundUser = await Consumer.findOneAndUpdate({ accessToken: token }, { accessToken : null })
-        if(!foundUser) return next(new AppError( 'invalid credentials', 400 ))
+        const foundStudent = await Student.findOneAndUpdate({ accessToken: token }, { accessToken : null })
+        if(!foundStudent) return next(new AppError( 'invalid credentials', 400 ))
         return res.json({
             status : 'success',
             'message' : 'loggedOut successfully'
@@ -50,14 +50,14 @@ module.exports = {
         const foundCourses = await Courses.find({})
         res.json({
             status : 'success',
-            message : 'found all cources',
+            message : 'found all courses',
             data : foundCourses
         })    
     }),
 
     getParticularCourse : catchAsync( async (req, res, next) => {
         const courseId = req.params.courseId
-        const foundCourse = await Courses.findById(courseId).populate('videos').populate('uploader')
+        const foundCourse = await Courses.findById(courseId).populate('videos').populate('instructor')
         if(!foundCourse) return next(new AppError('invalid credentials', 400)) 
         res.json({
             status : 'success',
@@ -68,7 +68,7 @@ module.exports = {
 
     buyCourse : catchAsync( async (req, res, next) => {
         const accessToken = req.headers.authorization
-        const consumerId =  await verify(accessToken, privateKey)
+        const studentId =  await verify(accessToken, privateKey)
         const courseId = req.params.courseId
         
         const { amount, source, receipt_email } = req.body
@@ -81,39 +81,39 @@ module.exports = {
         
         if (!charge) throw new Error('charge unsuccessful')
         
-        // update the data in user and in courses
-        const foundConsumer = await Consumer.findByIdAndUpdate(consumerId.id, { $push : { courses : courseId }}, { new : true })
-        const foundCourse = await Courses.findByIdAndUpdate(courseId , { $inc : { revenue : req.body.ammount}}, { new : true })
-        await Uploader.findByIdAndUpdate(foundCourse.uploader, { $inc : { revenue : req.body.ammount}})
+        // update the data in student and in courses
+        const foundStudent = await Student.findByIdAndUpdate(studentId.id, { $push : { courses : courseId }}, { new : true })
+        const foundCourse = await Courses.findByIdAndUpdate(courseId , { $inc : { revenue : req.body.amount}}, { new : true })
+        await Instructor.findByIdAndUpdate(foundCourse.instructor, { $inc : { revenue : req.body.amount}})
 
         res.json({
             status : 'success',
             message : 'bought the course successfully',
             charge : charge,
-            data : foundConsumer
+            data : foundStudent
         })    
     }),
 
-    getUserData : catchAsync( async (req, res, next) => {
+    getStudentData : catchAsync( async (req, res, next) => {
         const accessToken = req.headers.authorization
-        const userId = await verify(accessToken, privateKey)
-        if ( userId == null || userId == undefined ){
+        const studentId = await verify(accessToken, privateKey)
+        if ( studentId == null || studentId == undefined ){
             return next( new AppError('token expired', 400))
         }
-        const foundConsumer = await Consumer.findById(userId.id).populate('courses')
-        const foundUploader = await Uploader.findById(userId.id).populate({path : 'courses', model : 'course', populate: { path: 'videos', model : 'videos'}})
-        if(!foundUploader && !foundConsumer) return next(new AppError('invalid credentials', 400))
-        if( foundConsumer ){
+        const foundStudent = await Student.findById(studentId.id).populate('courses')
+        const foundInstructor = await Instructor.findById(studentId.id).populate({path : 'courses', model : 'course', populate: { path: 'videos', model : 'videos'}}) //investigate the instructorid.id
+        if(!foundInstructor && !foundStudent) return next(new AppError('invalid credentials', 400))
+        if( foundStudent ){
             return res.json({
                 status : 'success',
-                user : 'consumer',
-                data : foundConsumer
+                user : 'student',
+                data : foundStudent
             })
-        }else if( foundUploader ){
+        }else if( foundInstructor ){
             return res.json({
                 status : 'success',
-                user : 'uploader',
-                data : foundUploader
+                user : 'instructor',
+                data : foundInstructor
             })
         }    
     })

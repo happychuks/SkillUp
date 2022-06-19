@@ -1,5 +1,12 @@
 const router = require('express').Router()
-const { signUp, signIn, signOut, createCourse, addVideos } = require('../controllers/instructorApiController')
+const { 
+    signUp, 
+    signIn, 
+    signOut, 
+    createCourse, 
+    addVideos
+ } = require('../controllers/instructorApiController')
+ 
 const { instructorToken } = require('../middlewares/authenticate')
 const upload = require('multer')
 

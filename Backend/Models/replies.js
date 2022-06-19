@@ -10,11 +10,11 @@ const QuestionsSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : 'questions'
     },
-    uploaderReply : {
+    instructorReply : {
         type : Schema.Types.ObjectId,
         ref : 'instructor'
     },
-    consumerReply : {
+    studentReply : {
         type : Schema.Types.ObjectId,
         ref : 'user'
     }

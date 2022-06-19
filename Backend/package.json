@@ -4,8 +4,9 @@
   "description": "This is EduTech project designed by team CREDO",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "debug": "ndb index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "debug": "ndb server.js"
   },
   "keywords": [],
   "author": "CREDO",

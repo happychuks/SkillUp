@@ -1,5 +1,5 @@
 All packages installed
-Yet to complete the index.js file
-Yet to create .env and .gitignore files
-To also authenticate the database
+Backend tested and running successfully
+
+
 
