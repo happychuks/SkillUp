@@ -1,4 +1,4 @@
-#Team Credo Microsoft ATO Project <br>
+Team Credo Microsoft ATO Project <br>
 Project Name: SkillUp <br>
 Description: SkillUp is an all inclusive Educational Platform where one can acquire relevant IT, Vocational and Soft Skills at little or no cost.  <br>
 Stack: MERN  <br>
