@@ -1,1 +1,11 @@
-import React from 'react'
+
+  const DashboardPage = () => {
+    return ( 
+        <>
+            <p>lorem ipsum.</p>
+            
+        </>
+     );
+}
+  
+  export default DashboardPage;
