@@ -1,26 +1,33 @@
-//import logo from './logo.svg';
-import React from 'react'
-//import React, { useEffect, useState} from 'react';
-//import ConsumerCheck from './HOC/consumerCheck'
-//import UploaderCheck from './HOC/uploaderCheck'
-import Navtopbar from './components/Navtopbar'
-import Homepage from './pages/Homepage'
-import RegisterPage from './pages/RegisterPage'
-import LoginPage from './pages/LoginPage'
-import DashboardPage from './pages/DashboardPage'
-import './App.css';
-//import './styles/loading.css'
-import { Switch, Route, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login"; 
+import Homepage from "./pages/Homepage";
+import DashboardPage from './pages/DashboardPage';
+import Register from "./pages/Register"; 
+import InstructorRegister from "./pages/InstructorRegister";
+import InstructorLogin from "./pages/InstructorLogin";
+
 
 function App() {
+  // const [token, setToken] = useHref();
+  // if(!token) {
+  //   return <Login setToken={setToken} />
+  // }
   return (
-    <div className="App">
-      <header>
-        SkillUp App 
-        Credo group
-        20/06/2022
-      </header>
+    <div className='App'>
+      <h1> Credo </h1>
+     
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/InstructorLogin" element={<InstructorLogin />} />
+          <Route path="/InstructorRegister" element={<InstructorRegister/>} />
+          <Route path="/Register" element={<Register/>} />
+          <Route path="/DashboardPage" element={<DashboardPage />} />
+        </Routes>
+      </BrowserRouter>
+    
     </div>
   );
 }
