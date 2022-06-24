@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/esm/Button';
 
-function Navtopbar() {
+function Navtopbar(props) {
   return (
     <div>
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -13,9 +13,14 @@ function Navtopbar() {
         <Navbar.Brand href="/">SkillUp</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
+        {
+          !props.user ? <>
           <Nav.Link href="/Login">Login</Nav.Link>
-            <Nav.Link href="/Register">Register</Nav.Link>
+          <Nav.Link href="/Register">Register</Nav.Link>
+          </> :  null
+        }
+          <Nav className="me-auto">
+          
 
             <NavDropdown title="Courses" id="collasible-nav-dropdown">
               <NavDropdown.Item href="/uploaded/3.1">IT & Software</NavDropdown.Item>
