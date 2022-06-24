@@ -6,16 +6,20 @@ const {
     getCourses,
     getParticularCourse,
     buyCourse,
-    getStudentData
+    getStudentData,
+    getAllStudents,
+    getStudent
 } = require('../controllers/studentApiController')
 const { studentToken } = require('../middlewares/authenticate')
 
-router.post('/student/signUp', signUp)
-router.post('/student/signIn', signIn)
-router.delete('/student/signOut', studentToken, signOut)
+router.post('/signUp', signUp)
+router.post('/signIn', signIn)
+router.delete('/signOut', studentToken, signOut)
+router.get('/', getAllStudents)
 router.get('/getallCourses', getCourses)
 router.get('/getParticularCourse/:courseId', getParticularCourse)
 router.post('/buyCourse/:courseId', studentToken, buyCourse)
 router.get('/getStudentData', getStudentData)
+// router.get('/:_id', getStudent)
 
 module.exports = router

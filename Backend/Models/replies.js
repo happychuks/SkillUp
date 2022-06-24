@@ -16,7 +16,7 @@ const QuestionsSchema = new Schema({
     },
     studentReply : {
         type : Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'student'
     }
 })
 
