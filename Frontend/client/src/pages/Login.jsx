@@ -7,7 +7,7 @@ import {
   } from "react-router-dom";
   import "../styles/Login.css"
 
-function Login({ setToken }) {
+function Login({ setToken, setEmail }) {
       
   return(
     <div className="login-wrapper" >
@@ -15,7 +15,7 @@ function Login({ setToken }) {
       <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         
-        <Form.Control type="email" placeholder="Enter email" />
+        <Form.Control onChange={(event)=>setEmail(event)} type="email" placeholder="Enter email" />
         
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -26,7 +26,7 @@ function Login({ setToken }) {
           </Form>
 
       
-        <button type="submit">Submit</button>
+        <button type="submit" >Submit</button>
       
       
 
