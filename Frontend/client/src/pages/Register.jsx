@@ -1,6 +1,8 @@
 import React from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { BrowserRouter, Routes, Route, Redirect } from "react-router-dom";
+import "../styles/register.css"
 
 function Register() {
     return (
@@ -9,24 +11,20 @@ function Register() {
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
+            
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
-
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>retype-Password</Form.Label>
-            <Form.Control type="password" placeholder="retype Password" />
+            
+            <Form.Control type="password" placeholder="Retype Password" />
           </Form.Group>
           <Form.Select aria-label="Default select example">
                 
                 <option value="1">All Skills</option>
-                <option value="2">Technical Skills</option>
+                <option value="2">IT Skills</option>
                 <option value="3">Vocational Skills</option>
                 <option value="4">Power Skills</option>
          </Form.Select>
@@ -34,6 +32,7 @@ function Register() {
             Submit
           </Button>
           </Form>
+         
       </div>
     );
   }

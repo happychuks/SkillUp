@@ -2,32 +2,38 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login"; 
 import Homepage from "./pages/Homepage";
-import DashboardPage from './pages/DashboardPage';
+import StudentDashboardPage from './pages/StudentDashboardPage';
 import Register from "./pages/Register"; 
 import InstructorRegister from "./pages/InstructorRegister";
 import InstructorLogin from "./pages/InstructorLogin";
+import Navtopbar from './components/Navtopbar';
+import header from './components/header';
+import InstructorDashboardPage from './pages/InstructorDashboardPage';
 
 
-function App() {
+const App = () => {
   // const [token, setToken] = useHref();
   // if(!token) {
   //   return <Login setToken={setToken} />
   // }
   return (
     <div className='App'>
-      <h1> Credo </h1>
-     
+      
+     <>
+      <Navtopbar/>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/InstructorLogin" element={<InstructorLogin />} />
-          <Route path="/InstructorRegister" element={<InstructorRegister/>} />
-          <Route path="/Register" element={<Register/>} />
-          <Route path="/DashboardPage" element={<DashboardPage />} />
+          <Route path="/" exact element={<Homepage />} />
+          <Route path="/Login" exact element={<Login />} />
+          <Route path="/InstructorLogin" exact element={<InstructorLogin />} />
+
+          <Route path="/InstructorRegister" exact element={<InstructorRegister/>} />
+          <Route path="/Register" exact element={<Register/>} />
+          <Route path="/Instructor" exact element={<InstructorDashboardPage />} />
+          <Route path="/Student" exact element={<StudentDashboardPage/>}{...<Login/>} />
         </Routes>
       </BrowserRouter>
-    
+      </>
     </div>
   );
 }

@@ -4,7 +4,9 @@ import './index.css';
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+//import header from './components/header';
+import Navtopbar from './components/Navtopbar';
 
 
 const rootElement = 
@@ -18,4 +20,4 @@ root.render(
 );
 
 
-reportWebVitals();
+
