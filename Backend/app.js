@@ -33,18 +33,22 @@ app.use(bodyParser.urlencoded({ extended : true }))
 app.use( bodyParser.json())
 app.use(express.json())
 
-app.get('/', (req,res) => {
+/* app.get('/', (req,res) => {
   res.send('Welcome to SkillUP Learning Portal!');
   console.log(req.body);
-});
+}); */
 
 
 const instructorApiRoute = require('./routes/instructorApiRoutes')
 const studentApiRoute = require('./routes/studentApiRoutes')
 const errorHandler = require('./Handler/errorHandler')
 
-app.use(instructorApiRoute)
-app.use(studentApiRoute)
+// app.use(instructorApiRoute)
+// app.use(studentApiRoute)
+app.use('/instructor', instructorApiRoute)
+app.use('/student', studentApiRoute)
+
+
 
 app.all( '*', (req, _, next) => {
   next(new AppError(`can not find route ${req.originalUrl} in this server`, 404))

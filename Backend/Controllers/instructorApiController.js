@@ -8,6 +8,7 @@ const cloudinary = require('../utilities/cloudinary')
 const Videos = require('../models/video')
 const catchAsync = require('../utilities/catchAsync')
 const AppError = require('../utilities/appError')
+const { instructorToken } = require('../middlewares/authenticate')
 
 module.exports = {
     signUp : catchAsync(async (req, res, next) => {
@@ -44,6 +45,14 @@ module.exports = {
             'message' : 'loggedOut successfully'
         })    
     },
+
+    getAllInstructors : async (req, res, next)=> {
+        const getAllInstructors = await Instructor.find()
+        return res.json(getAllInstructors)
+         },
+
+         
+         
 
     createCourse : catchAsync(async (req, res, next) =>{
         const token = req.headers.authorization

@@ -7,7 +7,7 @@ const QuestionsSchema = new Schema({
     },
     createdBy : {
         type : Schema.Types.ObjectId,
-        ref : 'user'
+        ref : 'student'
     },
     replies : [{
         type : Schema.Types.ObjectId,

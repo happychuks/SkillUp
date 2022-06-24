@@ -94,6 +94,17 @@ module.exports = {
         })    
     }),
 
+    getAllStudents : async (req, res, next)=> {
+        const getAllStudents = await Student.find()
+        return res.json(getAllStudents)
+         },
+
+    /* getStudent : async (req, res, next)=> {
+        const getStudent = await Student.findById()
+        return res.send(getStudent)
+         }, */
+
+
     getStudentData : catchAsync( async (req, res, next) => {
         const accessToken = req.headers.authorization
         const studentId = await verify(accessToken, privateKey)
